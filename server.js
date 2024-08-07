@@ -1,7 +1,26 @@
 const express = require('express');
 const server = express();
 
-server.get('/', (req, res) => {
+// const data = require('./friend.json');
+const fs = require('fs');
+const data = fs.readFileSync("./friend.json","utf-8");
+// console.log(data);
+
+let middleware =(req,res,next)=>{
+    console.log(req.query);
+    if(req.query.password === "1234"){
+        console.log("Success");
+        next();
+    }
+    else{
+        return res.json({message:"Inccorect Way!!!"})
+    }
+}
+
+// application level
+server.use(middleware);
+
+server.get('/',middleware, (req, res) => {
         res.write("Welcome Express Js");
         res.end();
 })
@@ -39,6 +58,11 @@ server.patch("/admin",(req,res)=>{
 
 server.delete("/admin",(req,res)=>{
     res.json({msg:"Admin Delete method"});
+})
+
+server.get("/friend",(req,res)=>{
+    res.status(200);
+    res.json(JSON.parse(data));
 })
 
 server.listen(3500,()=>{
