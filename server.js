@@ -1,67 +1,57 @@
 const express = require('express');
 const server = express();
-
-// const data = require('./friend.json');
-// const fs = require('fs');
-// const data = fs.readFileSync("./friend.json","utf-8");
-// console.log(data);
-
 const morgan = require('morgan');
+const products = require("./product.json");
+const users = require("./user.json");
 
-// Third-party middleware:-
-// 4.0 version -> body - parser
+server.use(express.json());
+server.use(express.urlencoded({extended: true}));
+server.use(morgan("dev"));
 
-// Built-in middleware:-
-// express.json()->raw/json formate data
-// express.urlencode()->form data
-// express.static()->static data
-
-// server.use(express.json());
-// server.use(express.urlencoded({extended: true}));
-server.use("/hello",express.static("public"))
-server.use(morgan("dev"))
-
-let middleware =(req,res,next)=>{
-    console.log(req.body);
-    if(req.body.age >= 18){
-        console.log("Success");
-        next();
-    }
-    else{
-        return res.json({message:"Inccorect Way!!!"})
-    }
-}
-
-// let loggerFun = (req, res, next)=>{
-//     console.log(req.url,"\t",req.method,"\t" ) ;
-//     next();   
-// }
-// server.use(loggerFun)
-
-// application level:-
-// server.use(middleware);
-
-
-// Router-level middleware:
-server.get('/',middleware, (req, res) => {
-        res.write("Welcome Express Js");
-        res.end();
+server.get("/",(req,res)=>{
+    res.send("Welcome to the Product API");
 })
 
+// crud
 
-// server.get("/friend",(req,res)=>{
-//     res.status(200);
-//     res.json(JSON.parse(data));
-// })
+// add new product - create
+
+server.post("/product",(req,res)=>{
+    // console.log(req.body);
+    products.push(req.body);
+    res.json({product:req.body,message:"Product Add successfully"});
+})
+
+server.post("/users",(req,res)=>{
+    // console.log(req.body);
+    users.push(req.body);
+    res.json({user:req.body,message:"Users Add successfully"});
+})
+
+// Get all products - read
+
+server.get("/product",(req,res)=>{
+    res.json(products);
+})
+
+server.get("/users",(req,res)=>{
+    res.json(users);
+})
+
+// Get Single product - Read
+
+server.get("/product/:id",(req,res)=>{
+    let id = +req.params.id;
+    let item = products.find((product) => product.id === id);
+    res.json(item);
+})
+
+server.get("/users/:id",(req,res)=>{
+    let id = +req.params.id;
+    let item = users.find((user) => user.id === id);
+    res.json(item);
+})
 
 server.listen(3500,()=>{
-    console.log(`Server Start at http://localhost:3500`);   
+    console.log("server start");
 })
-
-
-/*
-    git checkout -b sk-1
-    git add .
-    git commit -m "Your commit"
-    git push -u origin sk-1
-*/
