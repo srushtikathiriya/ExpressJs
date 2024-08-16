@@ -19,6 +19,9 @@ const userSchema = mongoose.Schema({
         line1:String,
         line2:String,
         pincode:Number
+    },
+    image:{
+        type:String
     }
 })
 
