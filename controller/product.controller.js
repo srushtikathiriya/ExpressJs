@@ -45,3 +45,40 @@ exports.getProduct = async(req,res)=>{
         res.status(500).json({message:"Internal Server Error"})
     }
 };
+
+// Update product
+exports.updateProduct = async(req,res)=>{
+    try {
+        let product = await Product.findById(req.query.productId);
+        // console.log(user);
+        if(!product){
+            return res.status(404).json({message:"Product not found"});
+        }
+        // user = await User.updateOne({_id:req.query.userId},{$set:req.body},{new:true}); 
+        product = await Product.findByIdAndUpdate(req.query.productId,{$set:req.body},{new:true}); 
+        product.save();
+        res.status(200).json({product,message:"Product update success"});
+} 
+catch (error) {
+    console.log(error);
+    res.status(500).json({message:"Internal Server Error"})
+    }
+}
+
+// Delete product
+exports.deleteProduct = async(req,res)=>{
+    try{
+        let product = await Product.findById(req.query.productId);
+        if(!product){
+            return res.status(404).json({message:"Product not found"});
+        }
+        // product = await Product.deleteOne({_id:product._id});
+        product = await Product.findByIdAndDelete(product._id);
+        // product = await Product.findOneAndDelete(product._id);
+        res.status(200).json({product,message:"Product deleted successfully"});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:"Internal Server Error"})
+    }
+}
