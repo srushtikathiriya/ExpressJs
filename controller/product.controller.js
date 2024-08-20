@@ -4,12 +4,39 @@ const Product = require("../model/product.model");
 exports.addNewProduct = async (req, res) => {
     try {
         // console.log(req.body);
-        const {category,price,brand,image} = req.body;
-        let product = await Product.findOne({brand:brand});
+        const { title, description, category, price, discountPercentage, brand, 
+            sku, weight, rating, stock, tags, dimensions, reviews, returnPolicy, 
+            minimumOrderQuantity, meta, images, thumbnail, warrantyInformation, 
+            shippingInformation, availabilityStatus } = req.body;
+        let product = await Product.findOne({sku,isDelete:false});
         if(product)
             return res.status(400).json({message:"Product already exists"});
         product = await Product.create({
-            category,price,brand,image
+            title,
+            description,
+            category,
+            price,
+            discountPercentage,
+            brand,
+            sku,
+            weight,
+            rating,
+            stock,
+            tags,
+            dimensions, // Make sure this is an object with width, height, and depth
+            reviews, 
+            images,
+            thumbnail,
+            warrantyInformation,
+            shippingInformation,
+            availabilityStatus,
+            meta: {
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                barcode: "your-barcode-here",
+                qrCode: "your-qrCode-here"
+            }
+
         });
         product.save();
         res.status(201).json({product,message:"Product Added"});
