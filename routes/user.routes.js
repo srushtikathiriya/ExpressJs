@@ -1,19 +1,13 @@
 const express = require('express');
 const userRoutes = express.Router();
 const {
-    addNewUser,
-    getAllUser,
-    getUser,
-    updateUser,
-    deleteUser
+    registerUser,
+    loginUser
 } = require("../controller/user.controller");
 
 
-//  add new product - create
-userRoutes.post("/add-user",addNewUser);
-userRoutes.get("/",getAllUser);
-userRoutes.get("/get-user",getUser);
-userRoutes.put("/",updateUser);
-userRoutes.delete("/",deleteUser)
+
+userRoutes.post("/register",registerUser);
+userRoutes.post("/login",loginUser);
 
 module.exports = userRoutes;
