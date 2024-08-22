@@ -1,5 +1,6 @@
 const User = require("../model/user.model");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Registration
 exports.registerUser = async (req, res) => {
@@ -10,7 +11,6 @@ exports.registerUser = async (req, res) => {
         }
         let hashPassword = await bcrypt.hash(req.body.password,10);
         // console.log(hashPassword);
-        
         user = await User.create({...req.body,password:hashPassword});
         user.save();
         res.status(201).json({user,message:"User Registration successful"});
@@ -32,9 +32,34 @@ exports.loginUser = async (req, res) => {
         if(!matchPassword){
             return res.status(400).json({message:"Email or Password not match"})
         }
-        res.status(201).json({user,message:"User Login successful"});
+        let token = await jwt.sign({userId:user._id},process.env.JWT_SECRET);
+        res.status(201).json({user,message:"Login successful",token});
     } catch(error) {
         console.log(error);
         res.status(500).json({message:"Internal Server Error"});
     }
 };
+
+exports.userProfile = async(req,res)=>{
+    try {
+        res.status(200).json(req.user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+exports.updateProfile= async (req,res) => {
+    try {
+        let user = req.user;
+        user = await User.findByIdAndUpdate(
+            user._id,
+            {$set:req.body},
+            {new:true}
+        );
+        res.status(202).json({user,message:"User update success"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
