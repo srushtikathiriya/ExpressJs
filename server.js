@@ -4,9 +4,12 @@ const server = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const port = process.env.PORT;
+const path = require('path');
+
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
 server.use(morgan("dev"));
+server.use("/public/images",express.static(path.join(__dirname,"public/images")))
 
 
 server.get("/",(req,res)=>{
