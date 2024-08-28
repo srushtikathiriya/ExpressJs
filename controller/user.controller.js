@@ -105,3 +105,29 @@ exports.deleteUser= async (req,res) => {
         res.status(500).json({message:"Internal Server Error"});
     }
 }
+
+exports.specialUser = async (req,res)=>{
+    try{
+        let user = {
+            firstName:"John",
+            lastName:"Doe",
+            email:"john@test.in",
+            mobileNo:"1234567809",
+        }
+        // let user = {
+        //     name : "John Peter",
+        //     school:"hello world",
+        //     std:10
+        // }
+        // let user = await User.findOne({firstName:req.query.name,isDelete:false})
+        if(!user){
+            return res.render("notFound.ejs");
+        }
+        res.render("user.ejs",{user});
+        // res.render("student.hbs",{student:user})
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+};

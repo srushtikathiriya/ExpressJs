@@ -1,10 +1,15 @@
 require("dotenv").config()
 const express = require('express');
-const server = express();
+const hbs = require('hbs');
+const ejs = require('ejs');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const port = process.env.PORT;
 const path = require('path');
+const server = express();
+
+server.set("view engine","hbs");
+server.set("view engine","ejs");
 
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
