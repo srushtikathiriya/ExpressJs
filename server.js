@@ -11,6 +11,12 @@ const server = express();
 server.set("view engine","hbs");
 server.set("view engine","ejs");
 
+// Database connection
+mongoose
+.connect(process.env.MONGODB_URI)
+.then(()=>console.log(`Database connected..👍`))
+.catch(err=>console.log(err))
+
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
 server.use(morgan("dev"));
@@ -29,11 +35,10 @@ server.use("/api/product",productRoutes);
 const userRoutes = require("./routes/user.routes");
 server.use("/api/users",userRoutes);
 
+// cart routes
+const cartRoutes = require("./routes/cart.routes");
+server.use("/api/carts",cartRoutes);
+
 server.listen(port,()=>{
-    // Database connection
-    mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(()=>console.log(`Database connected..👍`))
-    .catch(err=>console.log(err))
     console.log(`server start http://localhost:${port}`);
 })
