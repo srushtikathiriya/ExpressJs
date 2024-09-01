@@ -9,7 +9,7 @@ const profileSchema = mongoose.Schema({
     },
     email:{
         type:String,
-    },
+    }
 },
 {
     timestamps:true

@@ -31,6 +31,7 @@ exports.registerUser = async (req, res) => {
     }
 };
 
+
 exports.showLoginPage = async (req, res) => {
     try {
         res.render('login.ejs');   

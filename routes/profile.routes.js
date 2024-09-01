@@ -5,8 +5,7 @@ const {
     profilePage,
     editprofile,
     updateProfile,
-    deleteProfile ,
-    // doneProfile
+    deleteProfile 
 } = require("../controller/profile.controller");
 
 
@@ -15,7 +14,6 @@ profileRoutes.post("/", profilePage);
 profileRoutes.get("/:id/edit", editprofile);
 profileRoutes.post("/:id/edit", updateProfile);
 profileRoutes.post("/:id", deleteProfile);
-// profileRoutes.post("/:id/mark-done", doneProfile);
 
 
 module.exports = profileRoutes;

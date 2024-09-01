@@ -10,6 +10,7 @@ exports.showProfilePage = async (req,res) => {
     }
 }
 
+
 exports.profilePage = async (req,res) => {
     try{
         let profile = await Profile.findOne({firstName:req.body.firstName,lastName:req.body.lastName,email:req.body.email})
