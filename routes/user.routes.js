@@ -15,5 +15,4 @@ userRoutes.get("/login", showLoginPage);
 userRoutes.post("/login", loginUser);
 
 
-
 module.exports = userRoutes;
