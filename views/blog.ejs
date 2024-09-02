@@ -47,6 +47,7 @@
                         <th class="py-3 px-4 text-left text-gray-600 font-semibold">Title</th>
                         <th class="py-3 px-4 text-left text-gray-600 font-semibold">Content</th>
                         <th class="py-3 px-4 text-left text-gray-600 font-semibold">Date</th>
+                        <th class="py-3 px-4 text-left text-gray-600 font-semibold">Time</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
                     </tr>
                 </thead>
@@ -57,6 +58,7 @@
                             <td class="py-4 px-4 text-gray-700"><%= blogs[i].title %></td>
                             <td class="py-4 px-4 text-gray-700 truncate"><%= blogs[i].content %></td>
                             <td class="py-4 px-4 text-gray-700"><%= blogs[i].createdAt.toDateString() %></td>
+                            <td class="py-4 px-4 text-gray-700"><%= blogs[i].createdAt.toLocaleTimeString() %></td>
                             <td class="px-6 py-4 text-sm text-gray-800">
                                 <div class="flex space-x-2">
                                    
