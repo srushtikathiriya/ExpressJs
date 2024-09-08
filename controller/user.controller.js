@@ -5,18 +5,13 @@ const jwt = require("jsonwebtoken");
 // Registration
 exports.registerUser = async (req, res) => {
     try {
-        let imagePath = "";
         let user = await User.findOne({email:req.body.email,isDelete:false});
         if(user){
             return res.status(400).json({message:"User already exists"});
         }
-        if(req.file){
-            // console.log(req.file.path);
-            imagePath = req.file.path.replace("\\","/");
-        }
         let hashPassword = await bcrypt.hash(req.body.password,10);
         // console.log(hashPassword);
-        user = await User.create({...req.body,password:hashPassword,profileImage:imagePath});
+        user = await User.create({...req.body,password:hashPassword});
         user.save();
         res.status(201).json({user,message:"User Registration successful"});
     } catch(error) {
@@ -99,7 +94,7 @@ exports.deleteUser= async (req,res) => {
             {isDelete: true},
             {new:true}
         );
-        res.status(202).json({user,message:"User update success"});
+        res.status(202).json({user,message:"User delete success"});
     } catch (error) {
         console.log(error);
         res.status(500).json({message:"Internal Server Error"});

@@ -43,5 +43,9 @@ server.use("/api/orders",orderRoutes);
 
 
 server.listen(port,()=>{
+    mongoose
+.connect(process.env.MONGODB_URI)
+.then(()=>console.log(`Database connected..👍`))
+.catch(err=>console.log(err))
     console.log(`server start http://localhost:${port}`);
 })
